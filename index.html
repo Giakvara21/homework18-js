@@ -38,7 +38,7 @@
     </form>
 
     <!-- დავალება 2 -->
-    <div>
+    <div id="textInputContainer">
       <input type="text" id="textInput" placeholder="Enter text" />
       <button id="arrayButton">Add</button>
     </div>
@@ -84,17 +84,13 @@
 
       const arrayButton = document.getElementById("arrayButton");
       const inputText = document.getElementById("textInput");
-      let ul = document.querySelector("ul");
-
-      if (!ul) {
-        ul = document.createElement("ul");
-        document.body.appendChild(ul);
-      }
+      const textInputContainer = document.getElementById("textInputContainer");
 
       arrayButton.addEventListener("click", () => {
         const li = document.createElement("li");
         li.textContent = inputText.value;
-        ul.appendChild(li);
+
+        textInputContainer.appendChild(li);
 
         inputText.value = "";
       });
