@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <!-- დავალება 1 -->
+    <h1>შეავსე</h1>
+    <form id="registrationForm">
+      <label for="firstName">First Name:</label>
+      <input type="text" id="firstName" name="firstName" />
+      <p id="firstNameError" class="error"></p>
+
+      <label for="lastName">Last Name:</label>
+      <input type="text" id="lastName" name="lastName" />
+      <p id="lastNameError" class="error"></p>
+
+      <label for="email">Email:</label>
+      <input type="text" id="email" name="email" />
+      <p id="emailError" class="error"></p>
+
+      <label for="password">Password:</label>
+      <input type="password" id="password" name="password" />
+      <p id="passwordError" class="error"></p>
+
+      <label for="confirmPassword">Confirm Password:</label>
+      <input type="password" id="confirmPassword" name="confirmPassword" />
+      <p id="confirmPasswordError" class="error"></p>
+
+      <label for="description">Description:</label>
+      <textarea id="description" name="description"></textarea>
+      <p id="descriptionError" class="error"></p>
+
+      <button type="button" onclick="validateForm()">Register</button>
+    </form>
+
+    <!-- დავალება 2 -->
+    <div>
+      <input type="text" id="textInput" placeholder="Enter text" />
+      <button id="arrayButton">Add</button>
+    </div>
+    <!-- დავალება 4 -->
+    <div id="userCards"></div>
+    <script>
+      function validateForm() {
+        var firstName = document.getElementById("firstName").value;
+        var lastName = document.getElementById("lastName").value;
+        var email = document.getElementById("email").value;
+        var password = document.getElementById("password").value;
+        var confirmPassword = document.getElementById("confirmPassword").value;
+        var description = document.getElementById("description").value;
+
+        document.getElementById("firstNameError").textContent = "";
+        document.getElementById("lastNameError").textContent = "";
+        document.getElementById("emailError").textContent = "";
+        document.getElementById("passwordError").textContent = "";
+        document.getElementById("confirmPasswordError").textContent = "";
+        document.getElementById("descriptionError").textContent = "";
+
+        if (firstName.length < 6) {
+          document.getElementById("firstNameError").textContent = "Error";
+        }
+        if (lastName.length < 6) {
+          document.getElementById("lastNameError").textContent = "Error";
+        }
+
+        let emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(email)) {
+          document.getElementById("emailError").textContent = "Error";
+        }
+        if (password.length < 6) {
+          document.getElementById("passwordError").textContent = "Error";
+        }
+        if (password !== confirmPassword) {
+          document.getElementById("confirmPasswordError").textContent = "Error";
+        }
+        if (description.length > 100) {
+          document.getElementById("descriptionError").textContent = "Error";
+        }
+      }
+
+      const arrayButton = document.getElementById("arrayButton");
+      const inputText = document.getElementById("textInput");
+      let ul = document.querySelector("ul");
+
+      if (!ul) {
+        ul = document.createElement("ul");
+        document.body.appendChild(ul);
+      }
+
+      arrayButton.addEventListener("click", () => {
+        const li = document.createElement("li");
+        li.textContent = inputText.value;
+        ul.appendChild(li);
+
+        inputText.value = "";
+      });
+      //დავალება 3
+      const persons = [
+        {
+          name: "Gia",
+          surname: "megreli",
+          age: 12,
+          profession: "Front-end developer",
+        },
+        {
+          name: "Khvicha",
+          surname: "Kvaracxelia",
+          age: 30,
+          profession: "footballer",
+        },
+        {
+          name: "Sandro",
+          surname: "Mamukelashvili",
+          age: 17,
+          profession: "basketball player",
+        },
+        { name: "Wayne", surname: "Rooney", age: 22, profession: "Coach" },
+        { name: "Michael", surname: "Wilson", age: 19, profession: "Artist" },
+      ];
+
+      const filteredPersons = persons.filter((person) => person.age > 18);
+
+      const ulList = document.createElement("ul");
+
+      filteredPersons.forEach((person) => {
+        const li = document.createElement("li");
+        li.textContent = `${person.name} ${person.surname} ${person.age} ${person.profession}`;
+        ulList.appendChild(li);
+      });
+
+      document.body.appendChild(ulList);
+      //დავალება 4
+      const users = [
+        {
+          id: 7,
+          email: "michael.lawson@reqres.in",
+          firstName: "Michael",
+          lastName: "Lawson",
+        },
+        {
+          id: 8,
+          email: "lindsay.ferguson@reqres.in",
+          firstName: "Lindsay",
+          lastName: "Ferguson",
+        },
+        {
+          id: 9,
+          email: "tobias.funke@reqres.in",
+          firstName: "Tobias",
+          lastName: "Funke",
+        },
+        {
+          id: 10,
+          email: "byron.fields@reqres.in",
+          firstName: "Byron",
+          lastName: "Fields",
+        },
+        {
+          id: 11,
+          email: "george.edwards@reqres.in",
+          firstName: "George",
+          lastName: "Edwards",
+        },
+        {
+          id: 12,
+          email: "rachel.howell@reqres.in",
+          firstName: "Rachel",
+          lastName: "Howell",
+        },
+      ];
+
+      function createUserCard(user) {
+        const card = document.createElement("div");
+        card.classList.add("card");
+
+        const image = document.createElement("img");
+        image.src = "https://picsum.photos/100/100?random=" + user.id;
+        image.alt = `${user.firstName} ${user.lastName}'s profile picture`;
+
+        const name = document.createElement("p");
+        name.textContent = `${user.firstName} ${user.lastName}`;
+
+        const email = document.createElement("p");
+        email.textContent = user.email;
+        email.style.display = "none";
+
+        const deleteButton = document.createElement("button");
+        deleteButton.textContent = "Delete";
+        deleteButton.addEventListener("click", () => card.remove());
+
+        const infoButton = document.createElement("button");
+        infoButton.textContent = "Info";
+        infoButton.addEventListener("click", () =>
+          email.style.display === "none"
+            ? (email.style.display = "block")
+            : (email.style.display = "none")
+        );
+
+        card.appendChild(image);
+        card.appendChild(name);
+        card.appendChild(email);
+        card.appendChild(deleteButton);
+        card.appendChild(infoButton);
+
+        return card;
+      }
+
+      const cardWrapper = document.getElementById("userCards");
+      users.slice(0, 4).forEach((user) => {
+        const card = createUserCard(user);
+        cardWrapper.appendChild(card);
+      });
+    </script>
+  </body>
+</html>
